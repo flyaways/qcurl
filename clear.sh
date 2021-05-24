@@ -2,4 +2,5 @@
 
 rm -rf *.flv \
     quic.scfg \
-    qcurl
+    qcurl \
+    nohup.out

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/http/httputil"
 	"time"
 
 	quic "github.com/lucas-clemente/quic-go"
@@ -27,7 +28,24 @@ func h2OverQUIC(network, local, addr, rawurl string,
 	}
 
 	dial := time.Now()
-	resp, err := client.Get(rawurl)
+	req, err := http.NewRequest("GET", rawurl, nil)
+	if err != nil {
+		fmt.Println(err)
+
+		return
+	}
+
+	data, err := httputil.DumpRequestOut(req, true)
+	if err != nil {
+		fmt.Println(err)
+
+		return
+	}
+
+	fmt.Println()
+	fmt.Println(string(data))
+
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 

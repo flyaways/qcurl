@@ -10,14 +10,15 @@ import (
 
 func main() {
 	var (
-		network  = flag.String("network", "udp4", "network")
-		addr     = flag.String("addr", "", "example: 1.2.3.4:80")
-		sni      = flag.String("sni", "", "domain")
-		gquic    = flag.String("quic-version", "43", "support 39,43,44")
-		local    = flag.String("bind", "", "bind local ip")
-		name     = flag.String("file", "d.flv", "specify i/o flv file")
-		buffer   = flag.Int("buffer", 102400, "buffer size in byte")
-		rtmpType = flag.Bool("t", true, "pull=true,publish=false")
+		network     = flag.String("network", "udp4", "network")
+		addr        = flag.String("addr", "", "example: 1.2.3.4:80")
+		sni         = flag.String("sni", "", "domain,empty is skip")
+		quicVersion = flag.String("quic-version", "43", "support 39,43,44")
+		local       = flag.String("bind", "", "bind local ip")
+		name        = flag.String("file", "d.flv", "specify i/o flv file")
+		buffer      = flag.Int("buffer", 102400, "buffer size in byte")
+		rtmpType    = flag.Bool("type", true, "whether to pull or publish,true is pull")
+		skip        = flag.Bool("skip", true, "whether a client verifies the server's certificate chain and host name")
 	)
 
 	flag.Parse()
@@ -55,7 +56,7 @@ func main() {
 		*sni = u.Host
 	}
 
-	tlsCfg, cfg := parseCfg(*gquic, *sni)
+	tlsCfg, cfg := parseCfg(*quicVersion, *sni, *skip)
 
 	appBuffer := make([]byte, *buffer)
 
