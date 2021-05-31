@@ -8,8 +8,11 @@ import (
 	"github.com/lucas-clemente/quic-go"
 )
 
-func dialFunc(local string) func(network, addr string, tlsCfg *tls.Config, cfg *quic.Config) (quic.Session, error) {
+func dialFunc(local, remote string) func(network, addr string, tlsCfg *tls.Config, cfg *quic.Config) (quic.Session, error) {
 	return func(network, addr string, tlsCfg *tls.Config, cfg *quic.Config) (quic.Session, error) {
+		if remote != "" {
+			addr = remote
+		}
 		udpAddr, err := net.ResolveUDPAddr(network, addr)
 		if err != nil {
 			return nil, err

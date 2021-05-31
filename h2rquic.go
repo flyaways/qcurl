@@ -18,7 +18,7 @@ func h2OverQUIC(network, local, addr, rawurl string,
 	roundTripper := &h2quic.RoundTripper{
 		TLSClientConfig: tlsCfg,
 		QuicConfig:      cfg,
-		Dial:            dialFunc(local),
+		Dial:            dialFunc(local, addr),
 	}
 
 	defer roundTripper.Close()
