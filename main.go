@@ -25,7 +25,10 @@ func main() {
 
 	rawurl := os.Args[len(os.Args)-1]
 
-	filename := time.Now().Format("2006-01-02-15-04-05-999-") + *name
+	filename := *name
+	if *name == "d.flv" {
+		filename = time.Now().Format("2006-01-02-15-04-05-999-") + *name
+	}
 	file, err := os.OpenFile(filename,
 		os.O_WRONLY|os.O_TRUNC|os.O_CREATE,
 		0666)
